@@ -113,6 +113,7 @@ function createcartitems() {
         quantity: Number(quantity),
       };
       addtocart(item);
+      cartTotal();
     });
   });
 }
@@ -180,8 +181,19 @@ function removecartitems() {
       cart.splice(index, 1);
       rendercart();
       updatecart(cart.length);
+      cartTotal();
     });
   });
+}
+
+// Calculate cart total
+function cartTotal() {
+  const total = cart.reduce((sum, item) => {
+    return sum + item.price;
+  }, 0);
+  document.querySelector(".cart-total").textContent = `Total: $${total.toFixed(
+    2
+  )}`;
 }
 
 /*-------------------------------------script for filter  by name -------------------------------------------------------------------------*/
@@ -189,7 +201,7 @@ function removecartitems() {
 //search filter
 function filteredproducts(data) {
   const searchbar = document.querySelector(".search-bar");
-  searchbar.addEventListener("keydown", (event) => {
+  searchbar.addEventListener("input", (event) => {
     let filtername = "";
     filtername = searchbar.value;
     const filteredlist = data.filter((item) =>
